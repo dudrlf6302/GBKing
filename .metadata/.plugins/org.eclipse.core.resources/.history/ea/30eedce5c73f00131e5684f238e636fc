@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@page contentType="text/html;charset=UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+
+<script type="text/javascript" src="http://d3js.org/d3.v2.js"></script>
+<script type="text/javascript"
+	src="http://www.treesheets.org/hotlink/cts.js"></script>
+<script type="text/cts"
+	src="http://people.csail.mit.edu/eob/cts/widgets/bubblechart.cts"></script>
+
+
+
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<title>Skitter</title>
+<link rel="stylesheet" href="css.css" type="text/css" media="all" />
+<link href="../design/css/styles.css" type="text/css" media="all" rel="stylesheet" />
+
+<!-- Skitter Styles -->
+<link href="../design/css/skitter.styles.css" type="text/css" media="all"
+	rel="stylesheet" />
+
+<!-- Skitter JS -->
+<script type="text/javascript" language="javascript"
+	src="../design/js/jquery-1.6.3.min.js"></script>
+<script type="text/javascript" language="javascript"
+	src="../design/js/jquery.easing.1.3.js"></script>
+<script type="text/javascript" language="javascript"
+	src="../design/js/jquery.animate-colors-min.js"></script>
+<script type="text/javascript" language="javascript"
+	src="../design/js/jquery.skitter.min.js"></script>
+
+<!-- Init Skitter -->
+<script type="text/javascript" language="javascript">
+		$(document).ready(function() {
+			$('.box_skitter_large').skitter({
+				theme: 'clean',
+				numbers_align: 'center',
+				progressbar: true, 
+				dots: true, 
+				preview: true
+			});
+		});
+	</script>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<script>
+	function goMain() {
+		var frm = document.formv;
+		frm.action = "/Test_Tomcat/design/index.jsp";
+		frm.submit();
+	}
+
+	function goImgChart() {
+		var frm = document.formv;
+		frm.action = "/Test_Tomcat/design/index.do?cmd=chart&url=img";
+		frm.submit();
+	}
+
+	function goBubbleChart() {
+		var frm = document.formv;
+		frm.action = "/Test_Tomcat/design/index.do?cmd=chart&url=bubble";
+		frm.submit();
+	}
+
+	function goBarChart() {
+		var frm = document.formv;
+		frm.action = "/Test_Tomcat/design/index.do?cmd=chart&url=bar";
+		frm.submit();
+	}
+</script>
+
+
+<body>
+	<form name="formv" method="post">
+		<div class="main">
+			<div class="header">
+			<!-- 
+				<div class="logo">
+					<img src="img/Hadoop_MapReduce.png" alt="" />
+				</div>
+			-->
+ 				<div class="menu">
+					<ul class="nav">
+						<li><img src="../design/img/background_00.png" alt="" /></li>
+						<li><input type="image" src="../disign/img/main_00.png" alt=""
+							onclick="goMain()" /></li>
+						<li><input type="image" src="../design/img/imgChart_00.png" alt=""
+							onclick="goImgChart()" /></li>
+						<li><input type="image" src="../design/img/bubbleChart_00.png" alt=""
+							onclick="goBubbleChart()" /></li>
+						<li><input type="image" src="../design/img/barChart_00.png" alt=""
+							onclick="goBarChart()" /></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="clear"></div>
+			<div class="contacts">
+				<div class="phone">
+					<div class="img">
+						<img src="../design/img/twitter.png" alt="" />
+					</div>
+				<div class="text">
+						National Hanbat University <br /> Computer Engineering capstone
+						design
+					</div>
+				</div>
+				<div class="ser">
+
+					<div class="search">
+						<input type="search" name="Search" /><input type="submit"
+							value="" onclick="goImgChart()" />
+
+					</div>
+
+				</div>
+
+			</div>
+			<br />
+
+		
+	</form>
+
+</body>
+</html>

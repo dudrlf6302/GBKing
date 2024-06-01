@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="menu">
+
+  <typeAlias alias="MenuDto" type="com.hanbat.menu.dto.MenuDto"/>
+  <typeAlias alias="BuyDto" type="com.hanbat.menu.dto.BuyDto"/>
+  <!-- Select with no parameters using the result map for Account class. -->
+   
+  <select id="getList" resultClass="MenuDto" parameterClass="java.util.HashMap">
+  	   SELECT	seq
+  	   		   , image
+	           , menu_mod
+	           , menu_name
+	           , price
+	           , point
+	           , TO_CHAR(wdate, 'yyyy-MM-dd') as wdate
+	           FROM GB_MENU 
+	           where delyn='N' and  menu_mod=#menu_mod#
+	           order by seq
+  </select>
+  
+  <select id="menuConfirm" resultClass="BuyDto"
+  	parameterClass="java.util.HashMap">
+
+	   SELECT	seq
+	   		   , USERID
+	           , ORDER_NUM
+	           , MENU_NAME
+	           , COUNT
+	           , TOTAL_PRICE
+	           , TO_CHAR(wdate, 'yyyy-MM-dd') as wdate
+			   FROM GB_BUY 
+			   where DELYN='N'
+			    <isNotEmpty property="searchWord">
+			   	<isEqual property="searchKey" compareValue="">
+	           		and ( USERID like '%$searchWord$%'
+	           		  or  ORDER_NUM like '%$searchWord$%')
+	           	</isEqual>    
+	           	<isEqual property="searchKey" compareValue="1">
+	           		and ORDER_NUM like '%$searchWord$%'
+	           	</isEqual>
+	           </isNotEmpty>
+			   order by seq desc
+  </select>
+  
+  <insert id="buy" parameterClass="BuyDto">
+  		<selectKey resultClass="int" keyProperty="seq">
+	        SELECT NVL(MAX(SEQ)+1,1)AS seq
+	        FROM GB_BUY
+	    </selectKey>
+	    INSERT INTO GB_BUY
+        (
+                SEQ
+                ,menu_name
+                ,count
+                ,price
+                ,total_price
+                ,total_point
+                ,order_num
+               	,userid
+               	,delyn
+               	,wdate
+		)
+        VALUES 
+        (
+        		#seq#
+   				,#menu_name#
+   				,#count#
+   				,#price#
+   				,#total_price#
+   				,#total_point#
+   				,#order_num#
+   				,#userid#
+   				,'N'
+   				,sysdate
+   		)
+  </insert>
+  
+  <insert id="add" parameterClass="MenuDto">
+		<selectKey resultClass="int" keyProperty="seq">
+	        SELECT NVL(MAX(SEQ)+1,1)AS seq
+	        FROM GB_MENU
+	    </selectKey>	
+	    INSERT INTO GB_MENU
+        (
+                SEQ
+                ,menu_mod
+                ,menu_name
+                ,image
+                ,contents
+                ,price
+               	,point
+               	,delyn
+               	,wdate
+		)
+        VALUES 
+        (
+   				#seq#
+   				,#menu_mod#
+   				,#menu_name#
+   				,#image#
+   				,#contents#
+   				,#price#
+   				,#point#
+   				,'N'
+   				,sysdate		
+   		)
+  </insert>
+  
+  <update id="update" parameterClass="MenuDto">
+   	 	update GB_MENU set
+   	 		menu_mod = #menu_mod#
+   	 		,menu_name = #menu_name#
+   	 		,contents = #contents#
+   	 		,image = #image#
+   	 		,price = #price#
+   	 		,point = #point#
+   	 		,wdate = sysdate
+   	 	where seq = #seq#
+  </update>
+  
+  <update id="delete" parameterClass="MenuDto">
+   	 	update GB_MENU set
+   	 		   delyn='Y' 
+   	 	where seq = #seq#
+  </update>
+  
+  <select id="getView" resultClass="MenuDto" parameterClass="String">
+      SELECT	seq
+	           , menu_mod
+	           , menu_name
+	           , contents
+	           , price
+	           , point
+	           , TO_CHAR(wdate, 'yyyy-MM-dd') as wdate  
+	  from GB_MENU 
+	  where seq = #seq#
+   </select>
+  
+  <select id="getOrder_num" parameterClass="java.util.HashMap" resultClass="String">
+   	  select to_char(NVL(max(ORDER_NUM)+1,1)) AS order_num FROM GB_BUY 
+   	  WHERE userid=#user_id# AND TO_CHAR(wdate, 'yyyy-MM-dd')=TO_CHAR(sysdate, 'yyyy-MM-dd')
+  </select>
+ 
+   
+</sqlMap>
+
+
+
+
+
+
+

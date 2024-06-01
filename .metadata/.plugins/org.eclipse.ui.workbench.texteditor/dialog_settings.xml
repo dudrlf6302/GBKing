@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="267" key="DIALOG_WIDTH"/>
+		<item value="608" key="DIALOG_Y_ORIGIN"/>
+		<item value="355" key="DIALOG_HEIGHT"/>
+		<item value="1096" key="DIALOG_X_ORIGIN"/>
+		<item value="1|굴림|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|굴림" key="DIALOG_FONT_NAME"/>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="true" key="wrap"/>
+		<item value="false" key="isRegEx"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="false" key="wholeword"/>
+		<item value="map" key="selection"/>
+		<list key="findhistory">
+			<item value="map"/>
+			<item value="mpa"/>
+			<item value="m"/>
+			<item value="chi"/>
+			<item value="goLogin"/>
+			<item value="bdw"/>
+			<item value="dbw"/>
+			<item value="bd"/>
+		</list>
+		<list key="replacehistory">
+			<item value="content_login"/>
+			<item value="login_content"/>
+			<item value="h10"/>
+			<item value="NanumPen"/>
+			<item value="GBKing/design"/>
+		</list>
+	</section>
+</section>

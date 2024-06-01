@@ -1,0 +1,8 @@
+@charset "UTF-8"; 
+/**********************************************************************
+Cooking Common Style Sheet
+
+**********************************************************************/
+@import url("common.css");
+@import url("style_sub.css");
+@import url("style_main.css");

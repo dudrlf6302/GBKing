@@ -1,0 +1,38 @@
+<%@page contentType="text/html;charset=UTF-8"%>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- aside S -->
+	
+	<div id="aside" style=" background: glay; ">
+		<br/>
+		<font size="3" color="#0000ff" face="돋움체">예약메뉴</font><br/>
+		
+		<ul>
+			<li <%if(leftMenu.equals("reserve")){
+							%>class="on"	
+							<%}
+							else{
+							%>class="off"<%
+							}%>
+			><a href="/GBKing/reserve/reserve.do">예약하기</a></li>
+			
+			<li <%if(leftMenu.equals("reserveConfirm")){
+							%>class="on"	
+							<%}
+							else{
+							%>class="off"<%
+							}%>
+			><a href="/GBKing/reserve/reserveConfirm.do">예약확인</a></li>
+			
+			<li <%if(leftMenu.equals("reserveList")){
+							%>class="on"	
+							<%}
+							else{
+							%>class="off"<%
+							}%>
+			><a href="/GBKing/reserve/reserveList.do">예약관리자</a></li>
+		</ul>
+
+
+			
+	</div>
+	<!-- aside E -->

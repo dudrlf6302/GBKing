@@ -1,0 +1,15 @@
+ 1. 이클립스 & 톰켓을 다운받는다. (버전 자바 1.7이상, 톰켓 7이상)
+ 
+ 2. 이클립스에서 프로젝트를 import 시킨다.
+
+ 3. 톰켓 플러그인을 다운받는다. (이클립스 플러그인 파일에 집어 넣는다)
+
+ 4. 이클립스로 키고 새로운 톰켓 프로젝트 생성하여 톰켓 실행하고 중단한다. 
+
+ 5. 아파치 톰켓 폴더 위치로 이동. conf > catalina > localhost 위치에 xml문서가 있을것이다.
+    자신의 프로젝트 파일명으로 수정. 편집모드 메모장하여 docBase , workDir 이동경로를 수정해준다
+ 예) docBase = "C:\Users\phy\Desktop\GBKing_Final\GBKing", workDir="C:\Users\phy\Desktop\GBKing_Final\GBKing\work" 수정.
+
+ 6. 이클립스 실행시킨후 프로젝트를 진행한다.
+
+ 

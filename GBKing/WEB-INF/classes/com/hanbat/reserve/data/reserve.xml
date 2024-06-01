@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="reserve">
+
+  <typeAlias alias="reserveDto" type="com.hanbat.reserve.dto.reserveDto"/>
+  
+  <!-- Select with no parameters using the result map for Account class. -->
+   
+   <select id="getList" resultClass="reserveDto"
+  	parameterClass="java.util.HashMap">
+
+	   SELECT	seq
+	   		   , ID
+	           , roomNum
+	           , currDDay
+	           , currTime
+	           , TO_CHAR(wdate, 'yyyy-MM-dd') as wdate
+			   FROM GB_RESERV 
+			   where delyn='N'
+			   	<isNotEmpty property="searchWord">
+			   	<isEqual property="searchKey" compareValue="">
+	           		and ( ID like '%$searchWord$%'
+	           		  or  roomNum like '%$searchWord$%'
+	           		  or  currDDay like '%$searchWord$%'
+	           		  or  currTime like '%$searchWord$%')
+	           	</isEqual>    
+	           	<isEqual property="searchKey" compareValue="1">
+	           		and roomNum like '%$searchWord$%'
+	           	</isEqual>
+	           	<isEqual property="searchKey" compareValue="2">
+	           		and ID like '%$searchWord$%'
+	           	</isEqual>
+	            <isEqual property="searchKey" compareValue="3">
+	           		and ( currDDay like '%$searchWord$%'
+	           		  or  currTime like '%$searchWord$%')
+	           	</isEqual>
+	           	<isEqual property="searchKey" compareValue="4">
+	           		and currDDay like '%$searchWord$%'
+	           	</isEqual>
+	           </isNotEmpty>
+			   order by seq desc
+    
+  </select>
+  
+  <select id="reserveConfirm" resultClass="reserveDto"
+  	parameterClass="java.util.HashMap">
+
+	   SELECT	seq
+	   		   , ID
+	           , roomNum
+	           , currDDay
+	           , currTime
+	           , TO_CHAR(wdate, 'yyyy-MM-dd') as wdate
+			   FROM GB_RESERV 
+			   where delyn='N'
+			    <isNotEmpty property="searchWord">
+			   	<isEqual property="searchKey" compareValue="">
+	           		and ( ID like '%$searchWord$%'
+	           		  or  roomNum like '%$searchWord$%'
+	           		  or  currDDay like '%$searchWord$%'
+	           		  or  currTime like '%$searchWord$%')
+	           	</isEqual>    
+	           	<isEqual property="searchKey" compareValue="1">
+	           		and roomNum like '%$searchWord$%'
+	           	</isEqual>
+	            <isEqual property="searchKey" compareValue="3">
+	           		and ( currDDay like '%$searchWord$%'
+	           		  or  currTime like '%$searchWord$%')
+	           	</isEqual>
+	           	<isEqual property="searchKey" compareValue="4">
+	           		and currDDay like '%$searchWord$%'
+	           	</isEqual>
+	           </isNotEmpty>
+			   order by seq desc
+    
+  </select>
+  
+   <insert id="insert" parameterClass="reserveDto">
+		<selectKey resultClass="int" keyProperty="seq">
+	        SELECT NVL(MAX(SEQ)+1,1)AS seq
+	        FROM GB_RESERV
+	    </selectKey>	
+	    INSERT INTO GB_RESERV
+        (
+                SEQ
+                ,ID
+                ,roomNum
+                ,currDDay
+                ,currTime 
+               	,WDATE
+               	,DELYN
+               	
+			 
+		)
+        VALUES 
+        (
+   				#seq#
+   				,#ID#
+   				,#roomNum#
+   				,#currDDay#
+   				,#currTime#
+   				,sysdate
+   				,'N'
+   				
+   		)
+   	</insert>
+   	
+   
+   	<update id="cancel" parameterClass="reserveDto">
+   			update GB_RESERV set
+   			delyn='Y' 
+   			where seq = #seq#
+   	</update>
+   	 
+
+   	
+   	
+  
+</sqlMap>
+
+
+
+
+
+

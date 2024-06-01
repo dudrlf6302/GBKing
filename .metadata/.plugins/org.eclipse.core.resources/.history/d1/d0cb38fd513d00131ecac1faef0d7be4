@@ -1,0 +1,80 @@
+<%@page contentType="text/html;charset=UTF-8"%>
+<%@page session="true"%>
+<%@taglib prefix="c" 
+    uri="http://java.sun.com/jstl/core_rt"%>
+   <%@page import="com.utility.*" %>
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>GBKing</title>
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+	<script src="js/common_group.js" language="Javascript" type="text/javascript"></script>
+
+
+</head>
+<script>
+function goView(seq)
+{	
+	
+	location.href="/<%=CommonUtil.commonURL%>/board/view.do?seq="+seq;
+}
+
+function goBoard(type)
+{
+	var frm = document.search;
+	frm.action="/<%=CommonUtil.commonURL%>/board/list.do";
+	frm.type.value=type;
+	frm.target="_self"; 	//내창으로 
+	frm.submit();
+}
+function goReserve()
+{
+	location.href="/<%=CommonUtil.commonURL%>/reserve/reserve.do";
+}
+function goMenu()
+{
+	location.href="/<%=CommonUtil.commonURL%>/menu/list_drink.do";
+
+}
+</script>
+<form name=search method="post">
+
+<input type="hidden" name="type" >
+</form>
+
+
+	<!-- header S -->
+	<div id="header">
+
+			<h1><a href="/GBKing/board/main.do" ><img src="../images/common/logo2.gif" alt="GBKing" /></a></h1>
+
+	</div>
+
+	<hr />
+
+	<!-- navi S -->
+	<div id="nav">
+
+		<h2 class="desc">사이트 메뉴</h2>
+
+		<ul>
+			<li><a href="#" onclick ="goBoard('0')"><font color="#33aaff" size='4'>공지사항</font></a></li>
+			<li><a href="#" onclick ="goBoard('1')"><font color="#33aaff" size='4'>Q&A</font></a></li>
+			<li><a href="#" onclick ="goBoard('2')"><font color="#33aaff" size='4'>후기</font></a></li>
+			
+			<li><a href="#" onclick ="goReserve()"><font color="#33aaff" size='4'>예약</font></a></li>
+			<li><a href="#none" onclick="return goMenu()"><font color="#33aaff" size='4'>주문</font></a></li>
+		</ul>
+
+
+
+	</div>
+	<!-- nav E -->
+
+	<hr />
+</html>
+		
+		

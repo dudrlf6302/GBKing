@@ -1,0 +1,29 @@
+<%@page contentType="text/html;charset=UTF-8"%>
+
+
+<section id="sidebar" class="parented">
+			<p class="intro" align="justify">GBKing에 오신걸 환영합니다.</br> GBKing에는 업무, 회의, 공부를 위한  개별공간뿐 아니라 모임을 위한 세미나공간이 준비되어 있습니다. 또한 커피와 함께 디저트도 준비되어 있습니다. 
+				  
+			</p>
+			<nav>
+				<ul id="sidenav" class="NanumPen">
+					<li><a href="#none" onclick="return goBoard('0')"
+							<%if(type.equals("0")){
+							%>class="active"	
+							<%}
+							%>>공지사항</a></li>
+					
+					<li><a href="#none" onclick="return goBoard('1')"
+							<%if(type.equals("1")){
+							%>class="active"	
+							<%}
+							%>>자유게시판</a></li>
+					
+					<li><a href="#none" onclick="return goBoard('2')"
+							<%if(type.equals("2")){
+							%>class="active"	
+							<%}
+							%>>Review</a></li>
+				</ul>
+			</nav>
+</section>

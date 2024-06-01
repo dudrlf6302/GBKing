@@ -1,0 +1,145 @@
+<%@page contentType="text/html;charset=UTF-8"%>
+<%@page session="true"%>
+<%@taglib prefix="c" 
+    uri="http://java.sun.com/jstl/core_rt"%>
+<%@page import="com.utility.*" %>
+<%@page import="com.hanbat.board.dto.*" %>
+<%
+	BoardDto dto = (BoardDto)request.getAttribute("dto");
+	String seq = (String)request.getAttribute("seq");
+	String type = (String)request.getAttribute("type");
+	String writer = (String)session.getAttribute("userid");
+%>
+
+<script>
+function goWrite()
+{
+	var frm = document.form;
+	frm.action="/<%=CommonUtil.commonURL%>/board/write.do";
+	frm.mode.value="modify";	
+	frm.type.value="<%=dto.getType()%>";
+	frm.target="_self"; //내창으로 
+	frm.submit();
+}
+function goDelete()
+{
+	var frm = document.form;	
+	frm.action="/<%=CommonUtil.commonURL%>/board/del.do";
+	
+	frm.submit();
+}
+function goBoard(type)
+{
+	var frm = document.form;
+	frm.action="/<%=CommonUtil.commonURL%>/board/list.do";
+	frm.type.value=type;
+	frm.target="_self"; 	//내창으로 
+	frm.submit();
+}
+function goReply()
+{
+	var frm = document.form;
+	frm.action="/<%=CommonUtil.commonURL%>/board/reply.do";
+	frm.mode.value="reply";	
+	frm.type.value="<%=dto.getType()%>";
+	frm.target="_self"; //내창으로 
+	frm.submit();
+}
+</script>
+
+<html>
+	
+	<%@include file="../../common/header.jsp"%>
+	<form name="form" method="post">	
+		
+		<input type="hidden" name=searchWord>
+		<input type="hidden" name="searchKey">
+	
+		<input type="hidden" name="seq"   value="<%=seq%>">
+		<input type="hidden" name="mode">
+		<input type="hidden" name="type" value="<%=dto.getType()%>">
+		<input type="hidden" name="board_list">
+		<input type="hidden" name="group_id" 
+	                   value="<%=dto.getGroup_id()%>">
+    <input type="hidden" name="group_depth" 
+    	value="<%=dto.getGroup_depth()%>">
+    <input type="hidden" name="group_seq" 
+    	value="<%=dto.getGroup_seq()%>">
+	</form>
+	
+	
+	
+	<!-- quickArea S -->
+	<div id="quickArea">
+		
+
+		<hr />
+
+		<!-- contentArea S -->
+		<div id="contentArea">		
+
+			<hr />
+			<!-- content S -->
+			<div id="content" class="CTdef">
+
+				<div class="bvhd dbline">
+				<dl>
+					<dt class="subject">제목</dt>
+						<dd class="subject"><c:out value ="${dto.title}"/></dd>
+					<dt class="date">작성일</dt>
+						<dd class="date"><c:out value ="${dto.wdate}"/></dd>
+					<dt class="country">작성자</dt>
+						<dd class="country"><c:out value ="${dto.writer}"/></dd>
+					<dt class="hits">조회</dt>
+						<dd class="hits"><c:out value ="${dto.hit}"/></dd>
+				</dl>
+			</div>
+			
+			<div class="bvc">
+				<p>
+					<%
+					out.println(dto.getContents());
+					%>
+				</p>
+				
+				<dl class="files">
+					<dt>첨부파일</dt>
+					<dd><a href="#">첨부파일1.txt</a></dd>
+					<dd><a href="#">첨부파일2.txt</a></dd>
+					<dd><a href="#">첨부파일3.txt</a></dd>
+					<dd><a href="#">첨부파일4.txt</a></dd>
+				</dl>
+			</div>
+			<!-- bbs view content E -->
+
+			<!-- bbs footer S -->
+			<div class="bftv">
+
+				<div class="bb">
+					<ul class="sbb">
+						<li><a href="#" onclick ="goBoard('<%=dto.getType()%>')">목록</a></li>						
+						<li><a href="#none" onclick="goReply()">답글</a></li>
+						<%if(writer.equals(dto.getWriter()))
+							{%>
+						<li><a href="#none" onclick="return goWrite()">수정</a></li>					
+						<li><a href="#none" onclick="return goDelete()">삭제</a></li>
+						<%} %>
+					</ul>
+				</div>
+
+			</div>
+
+
+		<!-- slide_top S -->
+		<div id="slide_top">
+
+
+			<script type="text/javascript">imgRollover('slide_top');</script>
+
+		</div>
+		<!-- slide_top E -->
+
+	</div>
+	<!-- quickArea E -->
+	
+</html>

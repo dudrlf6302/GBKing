@@ -1,0 +1,294 @@
+package com.hanbat.menu.controller;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.hanbat.menu.dto.BuyDto;
+import com.hanbat.menu.dto.MenuDto;
+import com.hanbat.menu.service.IMenuService;
+import com.hanbat.utility.*;
+
+
+//어노테이션을 통해 이 클래스가 컨트롤러임을 알린다. 
+@Controller
+public class MenuController {
+
+	@Autowired //이름으로 찾아서 결합하라 
+	private IMenuService menuService;
+	HashMap<String, String> map = new HashMap();
+	
+	//  url - ~~/member/list.do 호출하면  
+	//  /member/member_list.jsp페이지가 호출된다. 
+	@RequestMapping(value="/menu/list_drink")
+	public ModelAndView getList_drink()
+	{
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/menu/list");
+		//호출할 jsp 페이지
+		
+		map.put("menu_mod", "1");
+		List<MenuDto> list = menuService.getList(map);
+		mv.addObject("list", list);
+		mv.setViewName("/menu/list");
+		return mv;
+	}
+	
+	@RequestMapping(value="/menu/list_food")
+	public ModelAndView getList_food()
+	{
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/menu/list");
+		
+		map.put("menu_mod", "2");
+		List<MenuDto> list = menuService.getList(map);
+		mv.addObject("list", list);
+		mv.setViewName("/menu/list");
+		return mv;
+	}
+	
+	@RequestMapping(value="/menu/menu_Confirm")
+	public ModelAndView menu_Confirm(String searchKey, String searchWord)
+	{	
+		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("list",  menuService.menuConfirm(map));
+		mv.setViewName("menu/menu_Confirm");
+		return mv;
+	}
+	
+	@RequestMapping(value="/menu/menuCancel")
+	public ModelAndView confirmCancel(String ordernum)
+	{		
+		ModelAndView mv = new ModelAndView();
+		BuyDto B_dto = new BuyDto();
+		B_dto.setOrder_num(Integer.parseInt(ordernum));
+		menuService.cancel(dto);
+
+		mv.addObject("list",  menuService.menuConfirm(map));
+		mv.setViewName("menu/reserveConfirm");
+		return mv;
+	}
+
+	@RequestMapping(value="/menu/buy")
+	public ModelAndView Buy(String[] order_menu_name, String[] count, String[] price, String Total_price, String userid)
+	{
+		ModelAndView mv = new ModelAndView();
+		BuyDto B_dto = new BuyDto();
+		Utility ut = new Utility();
+		
+		HashMap hm = new HashMap();
+		hm.put("user_id", userid);
+
+		int order_num = menuService.getOrder_Num(hm);
+		int checked=0;
+		double Total_point;
+		
+		for(int i=0; i<price.length; i++)
+			{
+				if(!count[i].equals("0"))
+					{
+						B_dto.setMenu_name(order_menu_name[checked]);
+						B_dto.setCount(Integer.parseInt(count[i]));
+						B_dto.setPrice(Integer.parseInt(price[i]));
+						B_dto.setTotal_price(Integer.parseInt(Total_price));
+						B_dto.setTotal_point(ut.getPoint(Integer.parseInt(Total_price)));
+						B_dto.setOrder_num(order_num);
+						B_dto.setUserid(userid);
+						checked++;
+						menuService.buy(B_dto);
+					}
+			}
+	
+		HashMap map = new HashMap();
+		map.put("menu_mod", "1");
+		List<MenuDto> list = menuService.getList(map);
+		mv.addObject("list", list);
+		mv.setViewName("/menu/list");
+		return mv;
+	}
+	
+	
+	@RequestMapping(value="/menu/write")
+	public ModelAndView write(String mode, String seq)
+	{
+		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("mode", mode);
+		mv.addObject("seq", seq);
+		
+		if(mode.equals("mod"))
+		{
+			mv.addObject("dto",menuService.getView(seq));
+		}
+		
+		mv.setViewName("/menu/write");
+		return mv;
+	}
+	
+	@RequestMapping(value="/menu/view")
+	public ModelAndView view(String seq)
+	{
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("dto",menuService.getView(seq));
+		mv.addObject("seq", seq);
+		mv.setViewName("/menu/view");
+		return mv;
+	}
+	
+	@RequestMapping(value="/menu/delete")
+	public ModelAndView delete(String seq)
+	{
+		ModelAndView mv = new ModelAndView();
+		MenuDto dto = new MenuDto();
+		dto.setSeq(Integer.parseInt(seq));
+		menuService.delete(dto);
+		
+		map.put("menu_mod", "1");
+		List<MenuDto> list = menuService.getList(map);
+		mv.addObject("list", list);
+		mv.setViewName("/menu/list");
+		return mv;
+	}
+	
+	@RequestMapping(value="/menu/save")
+	public ModelAndView mybatistest(HttpServletRequest request) throws IOException
+	{
+        ModelAndView mv = new ModelAndView();
+        MenuDto dto = new MenuDto();
+        Utility ut = new Utility();
+        String date=ut.getDate();
+        
+        MultipartHttpServletRequest multi = (MultipartHttpServletRequest) request;
+        MultipartFile file = multi.getFile("image");
+        
+        String path="";
+
+        if(file!=null)
+        { 
+        	path = "d:/academy/java개발환경/workspace/GBKing/GBKing/upload/";
+        	InputStream inputStream = null;
+        	OutputStream outputStream = null;
+        	String organizedfilePath="";
+        	String filename="";
+        	
+        	try{
+        		if (file.getSize() > 0){
+        			inputStream = file.getInputStream();
+        			File realUploadDir = new File(path);
+                  
+        			if (!realUploadDir.exists()){
+        				realUploadDir.mkdirs();//폴더생성.
+        				}
+        			
+        			organizedfilePath = path + date + "_" + file.getOriginalFilename();
+        			outputStream = new FileOutputStream(organizedfilePath);
+        			filename = date + "_" + file.getOriginalFilename();
+        			int readByte = 0;
+        			byte[] buffer = new byte[8192];
+ 
+        			while ((readByte = inputStream.read(buffer, 0, 8120)) != -1){
+        				outputStream.write(buffer, 0, readByte); //파일 생성 !          
+        			}
+        		}
+        		dto.setImage(filename);
+        	}
+        	catch (Exception e){
+        		e.printStackTrace();
+        	}
+        	finally{
+        	  outputStream.close();
+        	  inputStream.close();
+        	} 
+         }
+        
+        String mode = multi.getParameter("mode");
+		if(mode==null || mode.equals(""))
+			mode="ins";
+		
+		String menu_mod_radio=multi.getParameter("menu_mod_radio");
+		if(menu_mod_radio.equals("drink"))
+		{
+			dto.setMenu_mod(1);
+		}
+		else
+		{
+			dto.setMenu_mod(2);
+		}
+		
+		dto.setMenu_name(multi.getParameter("menu_name"));
+		dto.setContents(multi.getParameter("contents"));
+		dto.setPrice(Integer.parseInt(multi.getParameter("price")));
+		dto.setPoint(ut.getPoint(Integer.parseInt(multi.getParameter("price"))));
+		
+		if(mode.equals("ins"))
+		{
+			menuService.save(dto);
+		}
+		else
+		{
+			int seq = Integer.parseInt(multi.getParameter("seq"));
+			dto.setSeq(seq);
+			menuService.update(dto);
+		}
+
+		HashMap map = new HashMap();
+		map.put("menu_mod", "1");
+		List<MenuDto> list = menuService.getList(map);
+		mv.addObject("list", list);
+		mv.setViewName("/menu/list");
+		return mv;
+    }
+
+
+	
+	/*
+	@RequestMapping(value="/member/save")
+	public ModelAndView memberSave(MemberDto dto)
+	{
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("member/member_list");
+		
+		memberService.insert(dto);
+		HashMap map = new HashMap();
+		List<MemberDto> list = memberService.getList(map);
+		//db 업어온거 
+		mv.addObject("list", list);
+		return mv;
+	}
+	
+	@RequestMapping(value="/member/zipcode")
+	public ModelAndView getZipcodeList(String dong)
+	{
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("member/zipcode");
+		//호출할 jsp 페이지
+		
+		HashMap map = new HashMap();
+		map.put("dong", dong);
+		
+		List list 
+		      = memberService.getZipcodeList(map);
+		//db 업어온거
+		//requet.setAttribute 대신에 아래 코드 실행 
+		mv.addObject("dong", dong);
+		mv.addObject("list", list);
+		return mv;
+	}
+	*/
+
+}

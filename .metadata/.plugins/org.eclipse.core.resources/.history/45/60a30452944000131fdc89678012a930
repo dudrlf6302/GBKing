@@ -1,0 +1,32 @@
+<%@page contentType="text/html;charset=UTF-8"%>
+
+<section id="sidebar" class="parented">
+			<p class="intro" align="justify">GBKing에 오신걸 환영합니다.
+			</br>일반 회원님들은 자유게시판 , Review <br>게시판에서 글 작성이 가능합니다. 다양한 이벤트와 공지는 공지사항 게시판을 참고해주세요.
+			</p>
+			<nav>
+				<ul id="sidenav" class="NanumPen">
+					<li><a href="/GBKing/reserve/reserve.do" 
+							<%if(leftMenu.equals("예약하기")){
+							%>class="active"	
+							<%}
+							%>>예약하기</a></li>
+					<li><a href="/GBKing/reserve/reserveConfirm.do"
+							<%if(leftMenu.equals("예약확인")){
+							%>class="active"	
+							<%}
+							%>>예약확인</a></li>
+					<%if(userid.equals("master"))
+					{
+					%>		
+					<li><a href="/GBKing/reserve/reserveList.do"
+							<%if(leftMenu.equals("예약관리자")){
+							%>class="active"	
+							<%}
+							%>>예약관리자</a></li>
+					<%
+					}
+					%>
+				</ul>
+			</nav>
+		</section>

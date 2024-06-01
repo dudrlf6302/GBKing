@@ -1,0 +1,1 @@
+INDEX VERSION 1.122+D:\academy\java개발환경\workspace\GBKing_Final\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes

@@ -1,0 +1,17 @@
+package com.hanbat.qna.controller;
+
+
+//어노테이션을 통해 이 클래스가 컨트롤러임을 알린다. 
+@Controller
+public class QnaController {
+
+	@RequestMapping(value="/qna/qna")
+	public ModelAndView qna()
+	{
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/qna/qna");
+		//호출할 jsp 페이지
+		return mv;
+	}
+
+}

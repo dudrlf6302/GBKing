@@ -1,0 +1,32 @@
+<%@page contentType="text/html;charset=UTF-8"%>
+
+<section id="sidebar" class="parented">
+			<p class="intro">GBKing은 스터디를 할 수 있는 공간입니다. 업무, 회의, 공부, 집중을 위한 개별공간뿐 아니라 모임을 위한 
+			세미나공간이 준비되어 있습니다. <br>커피와 함께 사이드메뉴도 준비되어 있습니다. 환영합니다^^
+			</p>
+			<nav>
+				<ul id="sidenav" class="NanumPen">
+					<li><a href="/GBKing/reserve/reserve.do" 
+							<%if(leftMenu.equals("예약하기")){
+							%>class="active"	
+							<%}
+							%>>예약하기</a></li>
+					<li><a href="/GBKing/reserve/reserveConfirm.do"
+							<%if(leftMenu.equals("예약확인")){
+							%>class="active"	
+							<%}
+							%>>예약확인</a></li>
+					<%if(userid.equals("master"))
+					{
+					%>		
+					<li><a href="/GBKing/reserve/reserveList.do"
+							<%if(leftMenu.equals("예약관리자")){
+							%>class="active"	
+							<%}
+							%>>예약관리자</a></li>
+					<%
+					{
+					%>	
+				</ul>
+			</nav>
+		</section>

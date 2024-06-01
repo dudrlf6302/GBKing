@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+		
+<sqlMap namespace="board">
+
+	<typeAlias alias="BoardDto" 
+		type="com.hanbat.board.dto.BoardDto"/>
+
+  <select id="getZipcodeList" 
+     resultClass="java.util.HashMap"
+  	 parameterClass="java.util.HashMap">
+ 	select zipcode
+ 	       ,dong
+ 	       ,address
+ 	from tb_zipcode
+ 	where dong=#dong#
+  </select>
+ 	
+  
+  <select id="list" resultClass="BoardDto"  
+                   parameterClass="java.util.HashMap">
+  		select * from 
+   (
+	   SELECT	seq
+	           , nvl(title, '제목없음') title
+	           , CONTENTS
+	           , writer
+	           , TO_CHAR(wdate, 'yyyy-MM-dd') as wdate
+	           ,TO_CHAR (ROW_NUMBER () OVER (order by group_id desc, group_seq asc )) AS NUM			        
+	           ,CEIL((ROW_NUMBER() OVER(order by group_id desc, group_seq asc))/10-1) pg 		
+			   ,group_id
+			   ,group_depth
+			   ,group_seq
+			   ,hit
+				 FROM TB_BOARD 
+			  
+	           where delyn='N' and type = #type# 
+	          	<isNotEmpty property="searchWord">
+	          	<isEqual property="searchKey" compareValue="">
+	           		and ( title like '%$searchWord$%'
+	           		  or  contents like '%$searchWord$%'
+	           		  or  writer like '%$searchWord$%')
+	           	</isEqual>  
+	           	<isEqual property="searchKey" compareValue="1">
+	           		and title like '%$searchWord$%'
+	           	</isEqual>
+	           	<isEqual property="searchKey" compareValue="2">
+	           		and contents like '%$searchWord$%'
+	           	</isEqual>
+	            <isEqual property="searchKey" compareValue="3">
+	           		and ( contents like '%$searchWord$%'
+	           		  or  title like '%$searchWord$%')
+	           	</isEqual>
+	           	<isEqual property="searchKey" compareValue="4">
+	           		and writer like '%$searchWord$%'
+	           	</isEqual>
+	           </isNotEmpty>
+    )where pg=#pg# 
+  </select>
+  
+   <select id="getTotalCount" parameterClass="java.util.HashMap"
+          resultClass="String">
+   select to_char(count(*)) cnt from tb_board where delyn='N' and type = #type#
+    		<isNotEmpty property="searchWord">
+    		    <isEqual property="searchKey" compareValue="">
+	           		and ( title like '%$searchWord$%'
+	           		  or  contents like '%$searchWord$%'
+	           		  or  writer like '%$searchWord$%')
+	           	</isEqual>  
+	           	<isEqual property="searchKey" compareValue="1">
+	           		and title like '%$searchWord$%'
+	           	</isEqual>
+	           	<isEqual property="searchKey" compareValue="2">
+	           		and contents like '%$searchWord$%'
+	           	</isEqual>
+	            <isEqual property="searchKey" compareValue="3">
+	           		and ( contents like '%$searchWord$%'
+	           		  or  title like '%$searchWord$%')
+	           	</isEqual>
+	           	<isEqual property="searchKey" compareValue="4">
+	           		and writer like '%$searchWord$%'
+	           	</isEqual>
+	           </isNotEmpty>
+  </select>
+  
+  <insert id="insert" parameterClass="BoardDto">
+  	<selectKey resultClass="String" keyProperty="seq">
+  		select nvl(max(seq)+1, 1) as seq from tb_board
+  	</selectKey>
+  	insert into tb_board
+  	(
+  		seq
+  		,title
+  		,contents
+  		,writer
+  		,wdate
+  		,delyn
+  		,type
+  		,hit
+  		,group_id
+		,group_depth
+		,group_seq
+  		
+  	)
+  	values
+  	(	
+  		#seq#
+  		,#title#
+  		,#contents#
+  		,#writer#
+  		,sysdate
+  		,'N'
+  		,#type#
+  		,0
+  		,#seq#
+  		,0
+  		,0
+  	)	
+  </insert> 
+  <insert id="reply" parameterClass="BoardDto">
+		<selectKey resultClass="String" keyProperty="seq">
+	        SELECT NVL(MAX(SEQ)+1,1)AS seq
+	        FROM tb_board
+	    </selectKey>	
+	    INSERT INTO tb_board
+        (
+                SEQ
+                ,TITLE
+                ,contents
+                ,writer 
+               	,WDATE
+               	,DELYN
+               	,group_id
+			   	,group_depth
+			   	,group_seq
+			   	,hit
+			    ,type
+			 
+		)
+        VALUES 
+        (
+   				#seq#
+   				,#title#
+   				,#contents#
+   				,#writer#
+   				,sysdate
+   				,'N'
+   				,#group_id#
+			   	,#group_depth#
+			   	,#group_seq#
+   				,0
+   				,#type#
+   				
+   		)
+   	</insert>
+  <select id="getView" resultClass="BoardDto"  
+                   parameterClass="String">
+  		SELECT	seq
+	           ,title
+	           , contents
+	           , writer
+	           , TO_CHAR(wdate, 'yyyy-MM-dd') as wdate
+	           ,type
+	           ,group_id
+			   ,group_depth
+			   ,group_seq
+			   ,hit
+	  from tb_board 
+	  where seq = #seq#
+  </select>
+  
+   <update id="update" parameterClass="BoardDto">
+   	 	update tb_board set
+   	 		title = #title#
+   	 		,contents = #contents#
+   	 		,writer = #writer#
+   	 	where seq = #seq#
+   	</update>
+   	<update id="delete" parameterClass="BoardDto">
+   	 	update tb_board set
+   	 		   delyn='Y' 
+   	 	where seq = #seq#  and type = #type#
+   	 </update>
+  	<update id="updateGroupSeq" parameterClass="BoardDto">
+   	 	update tb_board set
+   	 	group_seq=group_seq+1
+   	 	where group_seq>=#group_seq#
+   	 	and group_id = #group_id#
+   	 </update>
+   	 <update id="hitUpdate" parameterClass="String">
+   	 	update tb_board set
+   	 		   hit=hit+1
+   	 	where seq = #seq#
+   	 </update>
+
+   	 
+   	 <select id="find" resultClass="String" parameterClass="java.util.HashMap">
+		SELECT  to_char(count(*)) cnt FROM tb_member
+		WHERE user_id LIKE #user_id# AND password like #password#
+	</select>
+</sqlMap>
+
+
+
+
+
+
+

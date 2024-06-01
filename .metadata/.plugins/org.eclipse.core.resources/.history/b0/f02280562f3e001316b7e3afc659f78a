@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<!--[if IE 7 ]><html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]><html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]><html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]> <!-->
+<html lang="en" class="no-js" xmlns="http://www.w3.org/1999/xhtml">
+<!--<![endif]-->
+
+<%@page contentType="text/html;charset=UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@page session="true" import="java.util.*"%>
+<%@page import="com.hanbat.reserve.dto.*"%>
+
+
+<head>
+<meta charset="utf-8" />
+<title>GBKing</title>
+<link rel="stylesheet" href="/GBKing/css/style.css" />
+<script src="/GBKing/js/modernizr-1.6.min.js"></script>
+</head>
+
+<%
+	String currDDay = (String)request.getAttribute("currDDay");
+	String currTime = (String)(request.getAttribute("currTime"));
+	int roomNum = (Integer) (request.getAttribute("roomNum"));
+%>
+
+
+<body bgcolor='white'>
+<%@include file="/../common/header.jsp"%>
+	<% 
+	String leftMenu = "reserveFinish";
+
+	%>
+	<%@include file="../common/reserveLeft.jsp"%>
+
+	<div id="wrap" style="width: 930px; margin: auto;">
+		<div id="header" style="hight: 50px; background: black;">-</div>
+
+		<div id="main" style="margin-top: 10px;">
+				
+				<br/>
+				<font size="3" color="#0000ff" face="돋움체">예약이 완료 되었습니다.</font><br/>
+				
+			<table border="1" cellspacing="0" cellpadding="0" width="930px">
+				<tr>
+					<td width="8%">방번호</td>
+					<td width="*%">예약날짜</td>
+					<td width="10%%">예약시간</td>					
+				</tr>
+
+				<tr>
+					<td><%=roomNum%></td>
+					<td><%=currDDay%></td>
+					<td><%=currTime%></td>
+				</tr>
+			</table>
+			
+		</div>
+		<div style="clear: both;"></div>
+		<div id="flooter"
+			style="hight: 50px; margin-top: 10px; background: black;">-</div>
+
+	</div>
+
+</body>
+</html>
+
+
+
+
+

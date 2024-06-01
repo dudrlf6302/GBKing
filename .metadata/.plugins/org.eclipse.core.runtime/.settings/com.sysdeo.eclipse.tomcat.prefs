@@ -1,0 +1,7 @@
+computeSourcePath=true
+contextsDir=D\:\\academy\\tomcat6\\conf\\Catalina\\localhost
+eclipse.preferences.version=1
+fixTomcatHomeBug=fixed
+tomcatConfigFile=D\:\\academy\\tomcat6\\conf\\server.xml
+tomcatDir=D\:\\academy\\tomcat6
+tomcatVersion=tomcatV6

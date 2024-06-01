@@ -1,0 +1,58 @@
+<%@page contentType="text/html;charset=UTF-8"%>
+<%@page session="true"%>
+<%@page import="com.utility.*" %>
+<%@taglib prefix="c" 
+    uri="http://java.sun.com/jstl/core_rt"%>
+    
+<html>
+<head>
+<title>한밭대학교</title>
+</head>
+
+<script>
+function goFind()
+{
+	var frm = document.form;
+	if(frm.dong.value.length<1)
+	{
+		alert("동을 입력하세요");
+		frm.dong.focus();
+		return false;
+	}
+	frm.action="/<%=CommonUtil.commonURL%>/member/zipcode.do";
+	frm.submit();
+}
+
+function goSelect(zipcode, address)
+{
+	opener.document.getElementById("zipcode").value=zipcode;
+	opener.document.getElementById("address1").value=address;
+	self.close();
+}
+</script>
+<form name="form" method="post">
+동 이름을 입력하세요 
+<input type="text" name="dong" value="${dong}">
+&nbsp;&nbsp;&nbsp;
+<input type="button" value="검색" onclick="return goFind()">
+<br/>
+
+<table border="1" width="100%">
+		<c:forEach items="${list}" var="item">
+			<tr>
+				<td><a href="#none" 
+				    onclick="goSelect('${item.ZIPCODE}', '${item.ADDRESS}')">
+				   ${item.ZIPCODE}</a>
+				</td>
+				<td>
+					<a href="#none" 
+				    onclick="goSelect('${item.ZIPCODE}', '${item.ADDRESS}')">
+				    ${item.ADDRESS}
+				    </a>
+				</td>
+			</tr>
+		</c:forEach>
+</table>
+</form>
+</html>	
+	</table>

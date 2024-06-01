@@ -1,0 +1,23 @@
+<%@page contentType="text/html;charset=UTF-8"%>
+<%@taglib prefix="c" 
+    uri="http://java.sun.com/jstl/core_rt"%>
+   <%@page import="com.utility.*" %>
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>GBKing</title>
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+	<script src="js/common_group.js" language="Javascript" type="text/javascript"></script>
+</head>
+<!-- sideMenu S -->
+		<div id="sideMenu">
+
+			<ul>
+				
+			</ul>
+
+		</div>
+		<!-- sideMenu E -->

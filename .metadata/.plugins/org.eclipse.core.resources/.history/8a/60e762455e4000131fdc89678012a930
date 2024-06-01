@@ -1,0 +1,11 @@
+#sidebar h3{margin-bottom:50px;}
+#card{background:rgba(224, 215, 212, 0.35);margin:40px 0 30px 0;position:relative;}#card h3{margin:10px 0 15px 190px;width:305px;}
+#card p.theaddr{margin-bottom:10px;margin-top:10px;}
+#card p.tel{font-size:1.8em;margin:7px 0;}
+html.ie7 #card,html.ie8 #card{background:#F4F1F0;}
+html.ie7 #card h3{position:relative;left:190px;}
+#qr{border-right:2px solid #FFF;float:left;margin:-35px 20px 20px 0;width:170px;}
+#map{border:10px solid #FFF;clear:both;height:250px;margin-top:35px;}
+html.ie7 #map{position:relative;top:35px;}
+#expand{background:url(../../images/expand.png) top left no-repeat;cursor:pointer;font-size:12px;height:22px;position:absolute;right:30px;text-align:right;top:190px;width:112px;}#expand span{background:url(../../images/icons.png) 18px 4px no-repeat;display:block;line-height:25px;padding:0 20px 0 0;}
+#expand span.col{background-position:18px -20px;}

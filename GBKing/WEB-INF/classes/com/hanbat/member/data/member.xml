@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="member">
+
+
+
+	<typeAlias alias="MemberDto" type="com.hanbat.member.dto.MemberDto" />
+
+
+	
+	
+	<select id="find" resultClass="String" parameterClass="java.util.HashMap">
+		SELECT  to_char(count(*)) cnt FROM tb_member
+		WHERE user_id LIKE #user_id#
+	</select>
+	
+	<insert id="insert" parameterClass="MemberDto">
+		<selectKey resultClass="String" keyProperty="member_id">
+			select nvl(max(member_id)+1,1) as member_id
+			from tb_member
+		</selectKey>
+		insert into tb_member
+		(
+		member_id
+		,user_id
+		,password
+		,zipcode
+		,address1
+		,address2
+		,user_name
+		,wdate
+		,delyn
+		)values
+		(
+		#member_id#
+		,#user_id#
+		,#password#
+		,#zipcode#
+		,#address1#
+		,#address2#
+		,#user_name#
+		,sysdate
+		,'N'
+		)
+	</insert>
+
+
+	<select id="getZipcodeList" resultClass="java.util.HashMap"
+		parameterClass="java.util.HashMap">
+		select zipcode
+		,dong
+		,address
+		from tb_zipcode
+		where dong =#dong#
+	</select>
+
+	<select id="list" resultClass="MemberDto" parameterClass="java.util.HashMap">
+		select * from tb_member
+	</select>
+
+
+
+</sqlMap>
+
+
+
+
+
+
+

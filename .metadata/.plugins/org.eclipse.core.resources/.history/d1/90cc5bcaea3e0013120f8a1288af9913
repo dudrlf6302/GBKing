@@ -1,0 +1,109 @@
+package com.hanbat.menu.service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.hanbat.menu.dao.IMenuDao;
+import com.hanbat.menu.dao.MenuDao;
+import com.hanbat.menu.dto.BuyDto;
+import com.hanbat.menu.dto.MenuDto;
+import com.hanbat.reserve.dto.reserveDto;
+
+@Service
+public class MenuService implements IMenuService{
+	@Autowired
+	IMenuDao dao;
+	
+	@Override
+	public List getList(HashMap map) {
+		return dao.getList(map);
+	}
+	
+	@Override
+	public void buy(BuyDto dto)
+	{
+		try
+		{
+			dao.buy(dto);
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Override
+	public List menuConfirm(HashMap map) 
+	{
+		return dao.menuConfirm(map);
+	}
+	
+	@Override
+	public void cancel(reserveDto dto)
+	{
+		reserveDao.cancel(dto);
+	}
+	
+	@Override
+	public int getTotalCount(HashMap map) {
+		return dao.getTotalCount(map);
+	}
+	
+	@Override
+	public int getOrder_Num(HashMap map) {
+		return dao.getOrder_Num(map);
+	}
+	
+	@Override
+	public MenuDto getView(String seq) 
+	{
+		try
+		{
+			MenuDto dto=dao.getView(seq);
+			return dto;
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
+	@Override
+	public void save(MenuDto dto)
+	{
+		try
+		{
+			dao.add(dto);
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Override
+	public void update(MenuDto dto)
+	{
+		dao.update(dto);
+	}
+	
+	@Override
+	public void delete(MenuDto dto)
+	{
+		dao.delete(dto);
+	}
+	
+}
+
+
+
+
+
+
+
+

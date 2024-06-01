@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<!-- HandlerMapping -->
+	<bean
+		class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
+
+	<!-- 컨트롤의 클래스 이름에서 url을 추출한다. 클래스 이름에서 Controller 를 빼 나머지를 모두 소문자로 바꾼 
+	문자열이 url 이 된다. -->
+	
+	<!-- 컨트롤러 클래스에 @Controller, DAO클래스에 @Repository 를 부여한다. 
+	     설정파일에 다음처럼 기술한다.  패키지명만 기술하면 된다. -->
+	<!--<context:component-scan 
+	base-package="com.Woorizip.board.controller, com.Woorizip.board.dao, com.Woorizip.board.vo" />-->
+	
+<context:component-scan base-package="com.hanbat.*" />
+
+
+    
+   <!-- 컨트롤러가 반환한 View 정보를 컨텍스트 상의 경로로(물리적) 변환시켜 준다. -->
+	<!-- ViewResolver -->
+	<bean id="internalResourceViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	  <property name="viewClass">
+			<value>org.springframework.web.servlet.view.JstlView</value>
+		</property>
+		<property name="prefix"> <!--물리적인 주소가 /jsp/로 시작한다. -->
+			<value>/jsp/</value>
+		</property>
+		<property name="suffix">  <!--확장자가 .jsp 임-->
+			<value>.jsp</value>
+		</property>
+	</bean>
+
+	<!-- ExceptionHandler -->
+	<!--<bean id="exceptionHandler"
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<value>
+				exception.LoginRequiredException=dummyLogin
+				exception.CartEmptyException=cartEmpty
+				org.springframework.dao.DataRetrievalFailureException=dataNotFound
+				java.lang.Exception=exception
+			</value>
+		</property>
+	</bean> -->
+	
+		<!-- Configure the multipart resolver -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- one of the properties available; the maximum file size in bytes 2MB -->
+        <property name="maxUploadSize" value="2000000"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>	
+	
+</beans>
